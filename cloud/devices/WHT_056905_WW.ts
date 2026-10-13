@@ -123,6 +123,26 @@ export default class Device extends TLVDevice {
             read_xform: (raw) => Math.max(5, raw - 60),
         })
 
+        // Unconfirmed: tag 0x232 is a monotonically increasing counter (~689000 on a
+        // lightly used unit). Assumed to be accumulated energy in Wh; verify against an
+        // external energy meter before relying on it.
+        const energyTotalSensor = {
+            platform: 'sensor',
+            unique_id: '$deviceid-energy_total',
+            name: 'Energy total',
+            device_class: 'energy',
+            unit_of_measurement: 'Wh',
+            state_class: 'total_increasing',
+            entity_category: 'diagnostic',
+        }
+        config['components']['energy_total'] = energyTotalSensor
+        this.addField(config, {
+            id: 0x232,
+            name: '',
+            comp: 'energy_total',
+            writable: false,
+        })
+
         // Error/status code, same tag as the RAC family (0x221). 0 = no error.
         const errorSensor = {
             platform: 'sensor',

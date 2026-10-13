@@ -200,6 +200,18 @@ describe(MODEL_ID, () => {
         dev.drop()
     })
 
+    test('0x232 is published as a total_increasing energy sensor', (t) => {
+        const { ha, dev } = buildReadyDevice(t)
+        const components = ha.devices[DEVICE_ID].config!.components as Record<string, Record<string, unknown>>
+        assert.equal(components.energy_total.state_class, 'total_increasing')
+        assert.equal(components.energy_total.device_class, 'energy')
+
+        dev.processKeyValue(0x232, 688943)
+        assert.equal(ha.getProperty(DEVICE_ID, 'energy_total', 'state'), 688943)
+
+        dev.drop()
+    })
+
     test('drop clears all timers', (t) => {
         const { dev } = buildReadyDevice(t)
 
