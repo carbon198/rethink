@@ -3,6 +3,7 @@ import WTDN3 from './devices/WTDN3'
 import H11 from './devices/H11'
 import N17 from './devices/N17'
 import D30 from './devices/D30'
+import WTWN3 from './devices/WTWN3'
 import RAC_056905_WW from './devices/RAC_056905_WW'
 import RAC_056905_WW_T1 from './devices/RAC_056905_WW_T1'
 import WIN_056905_WW from './devices/WIN_056905_WW'
@@ -34,6 +35,7 @@ import F3L7CYK5W_US_WIFI from './devices/F3L7CYK5W_US_WIFI'
 import F3P3CYK2_ from './devices/F3P3CYK2_'
 import RV13B6BSD_D_US_WIFI from './devices/RV13B6BSD_D_US_WIFI'
 import RV13B6ES_D_US_WIFI from './devices/RV13B6ES_D_US_WIFI'
+import RC90U2_WW from './devices/RC90U2_WW'
 import WTL_FXU_BDV_NA_01 from './devices/WTL_FXU_BDV_NA_01'
 import FAFXU25006 from './devices/FAFXU25006'
 import TLVE5BB from './devices/TLVE5BB'
@@ -57,6 +59,7 @@ type T2Factory = new (HA: Connection, thinq: T2Device, metadata: Metadata) => HA
 const t1deviceTypes: Record<string, T1Factory> = {
     WTDN3,
     RAC_056905_WW: RAC_056905_WW_T1, // QCA4002 module, 2.6.7_RTOS_3K firmware: same model id as the TLV variant, but registers over ThinQ1 (issue #70)
+    WTWN3, // LG F4J7TN1W front-load washer (ThinQ1, QCA4002 module)
 }
 
 const t2deviceTypes: Record<string, T2Factory> = {
@@ -104,6 +107,7 @@ const t2deviceTypes: Record<string, T2Factory> = {
     WFV474PGV, // LG double oven/range
     WLREL6323S, // LG LREL6323S single-oven electric range
     D0211, // LG ThinQ dishwasher (deviceType 204), DB365TXS / DBC435TSL.AASQEIS
+    RC90U2_WW, // LG RC9DN9029 heat pump dryer (EU), same AABB dialect as the two dryers above but with the 25-byte EU record layout
 
     // aliases:
     RAC_0B0001_WW: RAC_056905_WW, // a different European variant (deviceType 401, RTK_RTL8720cm), same TLV handler
@@ -111,6 +115,7 @@ const t2deviceTypes: Record<string, T2Factory> = {
     'F_V7_Y___W.B__QEUK': F_V8_Y___W_B_2QEUK, // LG F2V5PS0W front-load washer - confirmed working, status/course/spin/temp/energy/remaining_time all decode correctly against a real unit
     'F_V__Y___W.B_2QEUK': F_V8_Y___W_B_2QEUK, // NOTE: we reuse F_V8_Y___W_B_2QEUK as the models appear to be compatible
     'F_VA_F___W.B__QEUK': F_V__F___W_B_1QEUK, // FV1413H2BA front-load washer SoftAP model (deviceType 201)
+    RC90V9_WW: RC90U2_WW, // LG RC91V9EV2Q heat pump dryer, same records
 }
 
 class Bridge {
